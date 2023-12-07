@@ -1,0 +1,114 @@
+{
+    "name": "Secure Email Notifier",
+
+    "namespace": "Stanford\\SecureEmailNotifier",
+
+    "description": "This module is intended to email project owners when they are using secure emails to non-stanford people",
+
+    "documentation": "README.md",
+
+    "framework-version": 14,
+
+    "authors": [
+        {
+            "name": "Andy Martin",
+            "email": "andy123@stanford.edu",
+            "institution": "Stanford Medicine"
+        }
+    ],
+
+    "permissions": [
+
+    ],
+
+    "enable-every-page-hooks-on-system-pages": false,
+    "links": {
+        "project": [
+
+        ],
+        "control-center": [
+            {
+                "name": "SECURE Email Notifier",
+                "icon": "fas fa-cog",
+                "url": "pages/status.php"
+            }
+        ]
+    },
+
+    "no-auth-pages": [
+
+    ],
+
+    "project-settings": [
+
+    ],
+
+    "system-settings": [
+        {
+            "key": "last-run",
+            "name": "<b>Date Last Run</b><br>Will only trigger if at least one day has passed since the date last run.",
+            "required": false,
+            "type": "text"
+        },
+        {
+            "key": "last-checked",
+            "name": "<b>Date Last Checked</b><br>Date the cron last checked to see if it should run.",
+            "required": false,
+            "type": "text"
+        },
+        {
+            "key": "scan-interval",
+            "name": "<b>Scan Interval</b><br>How many seconds should pass since the last check before we scan again and notify people that are using secure to non-stanford emails.  If blank, it will default to 3 days (259200).",
+            "required": false,
+            "type": "text"
+        },
+        {
+            "key": "excluded-pids",
+            "name": "<b>Exclude Projects</b><br>Supply a comma-delimited or carriage-return-delimited list of project_ids that you want to ignore.  Even if they have SECURE to non-stanford emails - they will NOT be notified.",
+            "required": false,
+            "type": "notes"
+        },
+        {
+            "key": "email-from",
+            "name": "<b>From Email</b><br>Email to designated contacts will come from this email (e.g. redcap-help@stanford.edu)",
+            "required": true,
+            "type": "text"
+        },
+        {
+            "key": "email-subject",
+            "name": "<b>Email Subject</b>",
+            "required": true,
+            "type": "text"
+        },
+        {
+            "key": "email-body",
+            "name": "<b>Email Body</b><br>This is the email that will be sent.  It will automatically include a salutation so just include the body and link to wiki for more detail.  It will end with a list of projects that sent the secure: emails.",
+            "required": true,
+            "type": "notes"
+        },
+        {
+            "key": "enable-system-debug-logging",
+            "name": "<b>Enable Debug Logging (system-wide)</b>",
+            "required": false,
+            "type": "checkbox"
+        }
+    ],
+
+    "crons": [
+        {
+            "cron_name": "cron_scan",
+            "cron_description": "Scan for non-stanford secure emails and warn project owners",
+            "method": "cronScan",
+            "cron_frequency": "45000",
+            "cron_max_run_time": "60"
+        }
+
+    ],
+
+    "compatibility": {
+        "php-version-min": "",
+        "php-version-max": "",
+        "redcap-version-min": "",
+        "redcap-version-max": ""
+    }
+}
