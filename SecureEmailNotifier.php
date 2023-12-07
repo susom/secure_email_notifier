@@ -65,6 +65,7 @@ class SecureEmailNotifier extends \ExternalModules\AbstractExternalModule {
         $email_body = $this->getSystemSetting('email-body');
         $email_from = $this->getSystemSetting('email-from');
         $email_subject = $this->getSystemSetting('email-subject');
+        $email_cc = $this->getSystemSetting('email-cc');
 
         $outbound_emails = [];
 
@@ -80,6 +81,7 @@ class SecureEmailNotifier extends \ExternalModules\AbstractExternalModule {
                     $msg['to'] = $row['contact_email'];
                     $msg['from'] = $email_from;
                     $msg['subject'] = $email_subject;
+                    $msg['cc'] = $email_cc;
                     $first_name = $row['contact_first_name'];
                     if (empty($first_name)) $first_name = "REDCap User";
                     $first_row = false;
@@ -95,11 +97,11 @@ class SecureEmailNotifier extends \ExternalModules\AbstractExternalModule {
             $msg['body'] = "Dear $first_name,\n\n" .
                 $email_body .
                 "\n" .
-                "<table>" .
-                "<thead><tr><th>PID</th><th>Project Title</th><th>Recipients</th><th>Email Count</th></tr></thead>" .
+                "<table style='border-spacing: 8px;'>" .
+                "<thead><tr><th>PID</th><th>Project<br/>Title</th><th>Distinct<br/>Recipients</th><th>Email<br/>Count</th></tr></thead>" .
                 "<tbody>" . implode("",$table_rows) . "</tbody>" .
                 "</table>" .
-                "\n\n<i>(This is an automated message.  Please contact your REDCap team if you wish to be exempted from 'SecureEmailNotifications')</i>";
+                "\n\n<i>(This is an automated message.  Please contact your REDCap team if you wish to be exempted from future Secure Email Notification warnings on this project)</i>";
 
             $outbound_emails[] = $msg;
         }
@@ -107,7 +109,12 @@ class SecureEmailNotifier extends \ExternalModules\AbstractExternalModule {
         $this->emDebug("Outbound Emails", $outbound_emails);
 
         //TODO: Send Actual Messages
-        echo "<h4>OutboundEmails</h4><pre>" . print_r($outbound_emails,true) . "</pre>";
+        echo "<h4>OutboundEmails</h4><pre style='text-wrap:wrap;'>" . print_r($outbound_emails,true) . "</pre>";
+
+        foreach ($outbound_emails as $email) {
+            $this->emDebug("Emailing " . $email['to'], $email['subject'], $email['body'], $email['cc']);
+            \REDCap::email($email['to'], $email['from'], $email['subject'], $email['body'], $email['cc']);
+        }
     }
 
     public function checkToRun() {

@@ -87,6 +87,12 @@
             "type": "rich-text"
         },
         {
+            "key": "email-cc",
+            "name": "<b>Email CC</b><br>If specified, a comma-separated list of email addresses to cc all notification emails (maybe your admin?).  You can leave this blank if you like",
+            "required": false,
+            "type": "text"
+        },
+        {
             "key": "enable-system-debug-logging",
             "name": "<b>Enable Debug Logging (system-wide)</b>",
             "required": false,
