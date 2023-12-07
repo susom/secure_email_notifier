@@ -101,7 +101,8 @@ class SecureEmailNotifier extends \ExternalModules\AbstractExternalModule {
                 "<thead><tr><th>PID</th><th>Project<br/>Title</th><th>Distinct<br/>Recipients</th><th>Email<br/>Count</th></tr></thead>" .
                 "<tbody>" . implode("",$table_rows) . "</tbody>" .
                 "</table>" .
-                "\n\n<i>(This is an automated message.  Please contact your REDCap team if you wish to be exempted from future Secure Email Notification warnings on this project)</i>";
+                "\n\n<i>(This is an automated message based on the date range from " . $this->start_date . " to " . $this->now_date . ".  " .
+                "Please contact your REDCap team if you wish to be exempted from future Secure Email Notification warnings on this project and specify your project_id/s)</i>";
 
             $outbound_emails[] = $msg;
         }
