@@ -109,9 +109,10 @@ class SecureEmailNotifier extends \ExternalModules\AbstractExternalModule {
         $this->emDebug("Outbound Emails", $outbound_emails);
 
         //TODO: Send Actual Messages
-        echo "<h4>OutboundEmails</h4><pre style='text-wrap:wrap;'>" . print_r($outbound_emails,true) . "</pre>";
-
         foreach ($outbound_emails as $email) {
+
+            echo "<h4>Email</h4><pre style='text-wrap:wrap;'>" . print_r($email,true) . "</pre><hr/>";
+
             $this->emDebug("Emailing " . $email['to'], $email['subject'], $email['body'], $email['cc']);
             \REDCap::email($email['to'], $email['from'], $email['subject'], $email['body'], $email['cc']);
         }
