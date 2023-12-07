@@ -84,7 +84,7 @@
             "key": "email-body",
             "name": "<b>Email Body</b><br>This is the email that will be sent.  It will automatically include a salutation so just include the body and link to wiki for more detail.  It will end with a list of projects that sent the secure: emails.",
             "required": true,
-            "type": "notes"
+            "type": "rich-text"
         },
         {
             "key": "enable-system-debug-logging",

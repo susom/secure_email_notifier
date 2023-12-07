@@ -24,24 +24,24 @@ class SecureEmailNotifier extends \ExternalModules\AbstractExternalModule {
             join redcap_projects rp on rp.project_id = roesl.project_id
             where
                 type='EMAIL'
-            and roesl.email_subject like '%SECURE%'
+            and roesl.email_subject like '%SECURE:%'
             and roesl.recipients not like '%stanford.edu%'
             and roesl.time_sent > ?
             and roesl.time_sent <= ?
             group by roesl.project_id, rp.app_title, dcs.contact_email, dcs.contact_first_name";
-        $q = $this->query($sql, [ $start_dt, $end_dt]);
+        $q = $this->query($sql, [$start_dt, $end_dt]);
+        $this->emDebug("Query returned", $q);
 
         // See if there are any PIDs to exclude
         $excluded_pids = $this->getSystemSetting('excluded-pids');
-        // Convert everytying that isn't a number to a comma
+        // Convert everything that isn't a number to a comma
         $excluded_pids = preg_replace('/[^\d+]/', ',', $excluded_pids);
         $excluded_pids = array_filter(str_getcsv($excluded_pids));
         $this->emDebug("Excluded PIDs: " . json_encode($excluded_pids));
 
-
         // Group results by email address
         $emails = [];
-        while ($row = db_fetch_assoc($q)) {
+        while ($row = $q->fetch_assoc()) {
             $project_id = $row['project_id'];
 
             if (in_array($project_id, $excluded_pids)) {
