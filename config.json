@@ -66,7 +66,7 @@
             "key": "excluded-pids",
             "name": "<b>Exclude Projects</b><br>Supply a comma-delimited or carriage-return-delimited list of project_ids that you want to ignore.  Even if they have SECURE to non-stanford emails - they will NOT be notified.",
             "required": false,
-            "type": "notes"
+            "type": "textarea"
         },
         {
             "key": "email-from",
